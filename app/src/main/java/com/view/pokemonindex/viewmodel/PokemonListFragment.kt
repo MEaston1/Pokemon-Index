@@ -6,8 +6,11 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.view.pokemonindex.databinding.FragmentPokemonListBinding
+import androidx.recyclerview.widget.RecyclerView
+import com.view.pokemonindex.R
+import com.view.pokemonindex.databinding.RecyclerItemPokemonModelBinding
 import com.view.pokemonindex.model.PokemonModel
+import kotlinx.android.synthetic.main.fragment_pokemon_list.*
 import java.lang.ClassCastException
 import java.util.*
 
@@ -22,11 +25,9 @@ class PokemonListFragment : Fragment() {
     private lateinit var imageResIds: IntArray
     private lateinit var pokemonNames: Array<String>
     private lateinit var pokemonAbilities: Array<String>
-    private lateinit var pokemonHP: IntArray
+    private lateinit var Health: IntArray
     private lateinit var pokemonSpecies: Array<String>
     private lateinit var listener: OnPokemonSelected
-    private var _binding: FragmentPokemonListBinding? = null
-    private val binding get() = _binding
 
     companion object {
         @JvmStatic
@@ -37,18 +38,7 @@ class PokemonListFragment : Fragment() {
     }
     interface OnPokemonSelected {
         fun onPokemonSelected(pokemonModel: PokemonModel){
-
         }
-    }
-
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        _binding = FragmentPokemonListBinding.inflate(inflater, container, false)
-        val view = binding?.root
-        return view
     }
 
     override fun onAttach(context: Context) {
@@ -61,6 +51,42 @@ class PokemonListFragment : Fragment() {
         val resources = context.resources
         //pokemonNames = resources.getStringArray(R.arr)
         // -- add retrofit reference here to access resources from PokeAPI
+    }
+
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        val view : View = inflater.inflate(R.layout.fragment_pokemon_list, container, false)
+        val activity = activity as Context
+        val recyclerView = view.findViewById<RecyclerView>(R.id.recycler_view)
+        recycler_view.adapter = PokemonListAdapter(activity)
+        return view
+    }
+
+
+
+    internal inner class PokemonListAdapter(context: Context) : RecyclerView.Adapter<ViewHolder>() {
+        private val layoutInflater = LayoutInflater.from(context)
+        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+            val recyclerViewPokemonModelBinding = recyclerViewPokemonModelBinding.inflate(layoutInflater, parent, false)
+
+        }
+
+        override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        val pokemon = PokemonModel(imageResIds[position], pokemonNames[position])
+            holder.setData(pokemon)
+            holder.itemView.setOnClickListener { listener.onPokemonSelected(pokemon) }
+        }
+
+        override fun getItemCount(): Int {
+            return pokemonNames.size
+        }
+    }
+    internal inner class ViewHolder constructor(itemView: View, private val recyclerItemPokemonModelBinding: RecyclerItemPokemonModelBinding) : RecyclerView.ViewHolder(itemView){
+        fun setData(pokemonModel: PokemonModel){
+            recyclerItemPokemonModelBinding.pokemonModel = pokemonModel
+        }
     }
 
 }
