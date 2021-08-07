@@ -8,7 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.view.pokemonindex.R
-import com.view.pokemonindex.databinding.RecyclerItemPokemonModelBinding
+import com.view.pokemonindex.databinding.PokemonModelBinding
 import com.view.pokemonindex.model.PokemonModel
 import kotlinx.android.synthetic.main.fragment_pokemon_list.*
 import java.lang.ClassCastException
@@ -69,12 +69,12 @@ class PokemonListFragment : Fragment() {
     internal inner class PokemonListAdapter(context: Context) : RecyclerView.Adapter<ViewHolder>() {
         private val layoutInflater = LayoutInflater.from(context)
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-            val recyclerViewPokemonModelBinding = recyclerViewPokemonModelBinding.inflate(layoutInflater, parent, false)
-
+            val recyclerViewPokemonModelBinding = PokemonModelBinding.inflate(layoutInflater, parent, false)
+            return ViewHolder(recyclerViewPokemonModelBinding.root, recyclerViewPokemonModelBinding)
         }
 
         override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val pokemon = PokemonModel(imageResIds[position], pokemonNames[position])
+        val pokemon = PokemonModel(imageResIds[position], pokemonNames[position], pokemonAbilities[position], Health[position], pokemonSpecies[position])
             holder.setData(pokemon)
             holder.itemView.setOnClickListener { listener.onPokemonSelected(pokemon) }
         }
@@ -83,7 +83,7 @@ class PokemonListFragment : Fragment() {
             return pokemonNames.size
         }
     }
-    internal inner class ViewHolder constructor(itemView: View, private val recyclerItemPokemonModelBinding: RecyclerItemPokemonModelBinding) : RecyclerView.ViewHolder(itemView){
+    internal inner class ViewHolder constructor(itemView: View, private val recyclerItemPokemonModelBinding: PokemonModelBinding) : RecyclerView.ViewHolder(itemView){
         fun setData(pokemonModel: PokemonModel){
             recyclerItemPokemonModelBinding.pokemonModel = pokemonModel
         }
