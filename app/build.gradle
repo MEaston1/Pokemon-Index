@@ -19,12 +19,8 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildFeatures {
-        viewBinding = true
+        dataBinding = true
     }
-    dataBinding {
-        enabled = true
-    }
-
     buildTypes {
         release {
             minifyEnabled false
@@ -51,6 +47,7 @@ dependencies {
     testImplementation 'junit:junit:4.+'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
+    kapt "com.android.databinding:compiler:7.1.0-alpha08"
     implementation('com.squareup.retrofit2:retrofit:2.1.0')
     implementation 'androidx.recyclerview:recyclerview:1.2.1'
     implementation 'com.squareup.retrofit2:converter-gson:2.9.0'

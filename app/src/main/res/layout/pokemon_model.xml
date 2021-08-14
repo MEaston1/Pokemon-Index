@@ -6,7 +6,8 @@
             type="com.view.pokemonindex.model.PokemonModel" />
 
     </data>
-    <androidx.constraintlayout.widget.ConstraintLayout xmlns:tools="http://schemas.android.com/tools"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
         xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -27,8 +28,8 @@
             app:layout_constraintTop_toTopOf="@id/pokemon_image"
             />
         <ImageView
-            imageResouce="@{pokemonModel.imageResId}"
             android:id="@+id/pokemon_image"
+            imageResouce="@{pokemonModel.imageResId}"
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:layout_marginStart="16dp"
